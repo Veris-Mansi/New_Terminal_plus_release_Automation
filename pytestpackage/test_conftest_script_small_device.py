@@ -45,9 +45,11 @@ class TestWalk_In():
         p = WebDriverWait(self.driver, 20, poll_frequency=0.005).until(
             EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'Authorization ID')))
         p.send_keys('N1')
+        self.driver.hide_keyboard()
         p = WebDriverWait(self.driver, 20, poll_frequency=0.005).until(
             EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'Authorization Code')))
         p.send_keys('1')
+
         self.driver.hide_keyboard()
         r = WebDriverWait(self.driver, 20, poll_frequency=0.005).until(
             EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'LOGIN')))
@@ -86,8 +88,8 @@ class TestWalk_In():
         contact=""
         for k in range(10):
 
-            #self.driver.find_element_by_xpath('/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[12]/android.view.ViewGroup').click()
-            self.driver.find_element_by_accessibility_id('8').click()
+            self.driver.find_element_by_xpath('/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[12]/android.view.ViewGroup').click()
+            #self.driver.find_element_by_accessibility_id('8').click()
             contact=contact+i;
         """try:
             self.driver.find_element_by_accessibility_id('4').click()
@@ -163,6 +165,12 @@ class TestWalk_In():
         time.sleep(0.5)
 
         #Meeting_with_offline_screen(self.driver)
+        n=WebDriverWait(self.driver, 20, poll_frequency=0.005).until(
+            EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'WhomToMeet')))
+        self.driver.set_value(n,"man")
+        n = WebDriverWait(self.driver, 20, poll_frequency=0.005).until(
+            EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'mansi sahu')))
+        n.click()
         m = WebDriverWait(self.driver, 20, poll_frequency=0.005).until(
             EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'unique_id')))
         m.send_keys(self.walkin_details['unique_id'])
@@ -186,20 +194,24 @@ class TestWalk_In():
         m = WebDriverWait(self.driver, 20, poll_frequency=0.005).until(
             EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'Next')))
         m.click()
-
-        m = WebDriverWait(self.driver, 20, poll_frequency=0.005).until(
-            EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'Mansi Test')))
-        m.click()
+        multi_tenant(self.driver)
         NDA_screen(self.driver)
-        m = WebDriverWait(self.driver, 20, poll_frequency=0.005).until(
-            EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'Next')))
-        m.click()
+        """
         user_action=TouchAction(self.driver)
         user_action.tap(x=285, y=809).perform()
         time.sleep(0.5)
         #
-        user_action.tap(x=482, y=810).perform()
-        date_and_time(self.driver)
+        user_action.tap(x=482, y=810).perform()"""
+        m = WebDriverWait(self.driver, 20, poll_frequency=0.05).until(
+            EC.presence_of_element_located((By.XPATH, '	//android.widget.TextView[@content-desc="Print"]')))
+        m.click()
+        m = WebDriverWait(self.driver, 20, poll_frequency=0.05).until(
+            EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'Next')))
+        m.click()
+        date_and_time_small(self.driver)
 
+        m = WebDriverWait(self.driver, 20, poll_frequency=0.05).until(
+            EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'Confirm Check-in')))
+        m.click()
 
 assert True
