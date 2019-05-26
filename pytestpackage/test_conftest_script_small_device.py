@@ -56,7 +56,7 @@ class TestWalk_In():
         r.click()
 
         m = WebDriverWait(self.driver, 20, poll_frequency=0.005).until(
-            EC.presence_of_element_located((By.XPATH, '//android.view.ViewGroup[@content-desc="Check-In"]')))
+            EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'Check-In')))
         m.click()
 
         m = WebDriverWait(self.driver, 20, poll_frequency=0.005).until(
@@ -74,6 +74,7 @@ class TestWalk_In():
         m = WebDriverWait(self.driver, 20, poll_frequency=0.005).until(
             EC.presence_of_element_located((By.XPATH, '//android.view.ViewGroup[@content-desc="Check-In"]')))
         m.click()
+
         """
         p = WebDriverWait(self.driver, 2, poll_frequency=0.005).until(
             EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'QR')))
@@ -84,11 +85,14 @@ class TestWalk_In():
         p.click()
         """
         #3
-        i="8"
+        i="7"
         contact=""
         for k in range(10):
+            p = WebDriverWait(self.driver, 2, poll_frequency=0.005).until(
+                EC.presence_of_element_located((By.XPATH, '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[15]/android.view.ViewGroup')))
+            p.click()
 
-            self.driver.find_element_by_xpath('/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[12]/android.view.ViewGroup').click()
+            #self.driver.find_element_by_xpath('/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[12]/android.view.ViewGroup').click()
             #self.driver.find_element_by_accessibility_id('8').click()
             contact=contact+i;
         """try:
@@ -178,16 +182,31 @@ class TestWalk_In():
         Multi_select_screen(self.driver)
         GOVT_Id_Screen(self.driver)
         single_dropdown_screen(self.driver)
-        m = WebDriverWait(self.driver, 20, poll_frequency=0.005).until(
+        """m = WebDriverWait(self.driver, 20, poll_frequency=0.005).until(
             EC.presence_of_element_located((By.XPATH, '//android.widget.EditText[@content-desc="address"]')))
-        m.send_keys(self.walkin_details['address'])
+        """
+
         m = WebDriverWait(self.driver, 20, poll_frequency=0.005).until(
+            EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'address')))
+
+        m.send_keys(self.walkin_details['address'])
+
+        m = WebDriverWait(self.driver, 20, poll_frequency=0.005).until(
+            EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'Emergencycontactname')))
+        m.click()
+        """m = WebDriverWait(self.driver, 20, poll_frequency=0.005).until(
             EC.presence_of_element_located((By.XPATH, '//android.widget.EditText[@content-desc="Emergencycontactname"]')))
+        """
         m.send_keys(self.walkin_details['Emergency_contact_name'])
 
         m = WebDriverWait(self.driver, 20, poll_frequency=0.005).until(
-        EC.presence_of_element_located((By.XPATH, '//android.widget.EditText[@content-desc="Emergencycontact"]')))
+            EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'Emergencycontact')))
         m.send_keys(self.walkin_details['Emergency_contact'])
+
+        """
+        m = WebDriverWait(self.driver, 20, poll_frequency=0.005).until(
+        EC.presence_of_element_located((By.XPATH, '//android.widget.EditText[@content-desc="Emergencycontact"]')))
+        m.send_keys(self.walkin_details['Emergency_contact'])"""
         self.driver.hide_keyboard()
         rating_Screen(self.driver)
 
@@ -195,7 +214,8 @@ class TestWalk_In():
             EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'Next')))
         m.click()
         multi_tenant(self.driver)
-        NDA_screen(self.driver)
+        time.sleep(1)
+        NDA_Smallscreen(self.driver)
         """
         user_action=TouchAction(self.driver)
         user_action.tap(x=285, y=809).perform()
