@@ -23,9 +23,9 @@ class TestWalk_In():
         login(self.driver)
         assert True
 
-    #ef test_fresh_user(self):
-    #    walkin_visitor(self.driver, self.walkin_details)
-
+    def test_fresh_user(self):
+       walkin_visitor(self.driver, self.walkin_details)
+    """
     def test_autofetch_user_(self):
         autofetch_user(self.driver, self.walkin_details)
 
@@ -40,6 +40,7 @@ class TestWalk_In():
             cameraretake(self.driver)
             FLEP_auto_fetch_member(self.driver, self.member_details)
             Meeting_with_screen(self.driver)
+            time.sleep(1)
             emergency_details_autofetch(self.driver, self.member_details)
             unique_id_autofetch(self.driver, self.member_details['unique_id'])
             self.driver.find_element_by_accessibility_id('nextButton').click()
@@ -296,5 +297,6 @@ class TestWalk_In():
 
     def test_logout(self):
         logout(self.driver)
+    """
 
 
