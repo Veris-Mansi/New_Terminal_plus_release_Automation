@@ -29,11 +29,152 @@ class TestWalk_In():
     def test_login(self):
         try:
             login(self.driver)
+
         except Exception as e:
             print (e)
 
+    """
     @pytest.mark.order3
     @pytest.mark.dependency(name="fresh_user_walkin",depends=["Login activity"])
     def test_fresh_user_walkin(self):
         walkin_visitor(self.driver,self.walkin_details)
+    """
+    @pytest.mark.order3
+    @pytest.mark.dependency(name="autofetch_user_walkin", depends=["Login activity"])
+    def test_autofetch_user_walkin(self):
+        autofetch_user(self.driver, self.walkin_details)
+
+    @pytest.mark.order5
+    @pytest.mark.dependency(name="member_check_in", depends=["Login activity"])
+    def test_member_check_in(self):
+        try:
+            user_action = TouchAction(self.driver)
+            checkIn(self.driver)
+            time.sleep(0.5)
+            setting_contact_member(self.driver)
+            try:
+                print("old screen")
+                cameraretake(self.driver)
+                FLEP_auto_fetch_member(self.driver, self.member_details)
+            except Exception as e:
+                print("new_screen")
+                camera(self.driver)
+                FLEP_Screen(self.driver,self.member_details)
+                raise
+
+            Meeting_with_screen(self.driver)
+            time.sleep(1)
+            try:
+                emergency_details_autofetch(self.driver, self.member_details)
+                unique_id_autofetch(self.driver, self.member_details['unique_id'])
+
+            except:
+                emergency_contact(self.driver,self.member_details)
+                unique_id(self.driver,self.member_details)
+
+            Next(self.driver)
+            time.sleep(1)
+            activity_complete(self.driver, self.member_details)
+            check_out(self.driver, self.member_details)
+            self.status_test = True
+            statusOftest(self.status_test, self.driver)
+        except:
+            self.status_test = False
+            takeScreenshot(self.driver)
+            statusOftest(self.status_test, self.driver)
+            raise
+
+    @pytest.mark.order7
+    @pytest.mark.dependency(name="invited_user", depends=["Login activity"])
+    def test_invited_user(self):
+        try:
+            self.status_test = False
+            checkIn(self.driver)
+            setting_contact_invite(self.driver)
+            InvitedWF(self.driver)
+            FLEP_auto_fetch_member(self.driver, self.invited_details)
+            # time.sleep(2)
+            meeting = self.driver.find_element_by_xpath(
+                '	//android.widget.EditText[@content-desc="meetingWithTextField"]')
+            meeting_with_invite(self.driver)
+            Next(self.driver)
+            time.sleep(2)
+            activity_complete(self.driver, self.invited_details)
+            check_out(self.driver, self.invited_details)
+            self.status_test = True
+            statusOftest(self.status_test, self.driver)
+        except:
+            self.status_test = False
+            takeScreenshot(self.driver)
+            statusOftest(self.status_test, self.driver)
+            raise
+
+    @pytest.mark.order8
+    @pytest.mark.dependency(name="general_activity_member", depends=["Login activity"])
+    def test_general_activity_member(self):
+        try:
+            late_tracking(self.driver)
+            setting_contact_member(self.driver)
+            # time.sleep(2)
+            cameraretake(self.driver)
+            FLEP_auto_fetch_member(self.driver, self.member_details)
+            time.sleep(0.5)
+            emergency_details_autofetch(self.driver, self.member_details)
+            time.sleep(0.5)
+            Next(self.driver)
+            unique_id_autofetch(self.driver, self.member_details['unique_id'])
+            gender_Screen(self.driver)
+            el = WebDriverWait(self.driver, 10, poll_frequency=0.5).until(EC.presence_of_element_located((By.XPATH,
+                                                                                                          '//android.view.ViewGroup[@content-desc="dropdownFormComponentField"]/android.view.ViewGroup')))
+            el.click()
+            time.sleep(1)
+            el = WebDriverWait(self.driver, 10, poll_frequency=0.5).until(EC.presence_of_element_located((By.XPATH,
+                                                                                                          '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.widget.ScrollView/android.view.ViewGroup/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.view.ViewGroup[3]/android.view.ViewGroup[1]')))
+            el.click()
+            Next(self.driver)
+            activity_complete(self.driver, self.member_details)
+            check_out(self.driver, self.member_details)
+            self.status_test = True
+            statusOftest(self.status_test, self.driver)
+            assert True
+        except:
+            print("exception")
+            takeScreenshot(self.driver)
+            self.status_test = False
+            statusOftest(self.status_test, self.driver)
+            raise
+
+
+    def test_general_activity_walkin(self):
+
+        try:
+            late_tracking(self.driver)
+            time.sleep(0.5)
+            contact = setting_contact(self.driver)
+            camera(self.driver)
+            FLEP_Screen(self.driver, self.walkin_details, contact)
+            emergency_contact(self.driver, self.walkin_details)
+            Next(self.driver)
+            unique_id(self.driver, self.walkin_details['unique_id'])
+            gender_Screen(self.driver)
+            self.driver.hide_keyboard()
+            el = WebDriverWait(self.driver, 10, poll_frequency=0.5).until(EC.presence_of_element_located((By.XPATH,
+                                                                                                          '//android.view.ViewGroup[@content-desc="dropdownFormComponentField"]/android.view.ViewGroup')))
+            el.click()
+            time.sleep(1)
+            el = WebDriverWait(self.driver, 10, poll_frequency=0.5).until(EC.presence_of_element_located((By.XPATH,
+                                                                                                          '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.widget.ScrollView/android.view.ViewGroup/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.view.ViewGroup[3]/android.view.ViewGroup[1]')))
+            el.click()
+            next = WebDriverWait(self.driver, 10, poll_frequency=0.5).until(
+                EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'nextButton')))
+            next.click()
+
+            activity_complete(self.driver, self.walkin_details)
+            self.status_test = True
+            statusOftest(self.status_test, self.driver)
+        except:
+            print("exception")
+            self.status_test = False
+            statusOftest(self.status_test, self.driver)
+            raise
 
