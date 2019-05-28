@@ -41,7 +41,7 @@ def settingup():
     walkin_email_details = {
         "firstname": "emone",
         "lastname": "emto",
-        "email": "ee@st.com",
+        "phone": "7777777777",
         "unique_id": "e111",
         "address": "JMD",
         "Emergency_contact_name": "RAM",
@@ -83,6 +83,7 @@ def settingup():
     data['member_details']=member_details
     data['invited_details']=invited_details
     data['offline_walkin_details']=offline_walkin_details
+    data['walkin_email_details']=walkin_email_details
     return data
 
 
@@ -144,17 +145,19 @@ def checkIn(driver):
     assert True
 
 def setting_email(driver):
+
     p = WebDriverWait(driver, 10, poll_frequency=0.005).until(
         EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'Email')))
     p.click()
-    p = WebDriverWait(driver, 10, poll_frequency=0.005).until(
+    q = WebDriverWait(driver, 10, poll_frequency=0.005).until(
         EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'Please write here')))
-    p.send_keys('a@b.com')
-    email=p.text
+    q.send_keys('a@b.com')
+    email=q.text
     print(email)
     p = WebDriverWait(driver, 10, poll_frequency=0.005).until(
         EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'Next')))
     p.click()
+    return email
 
 def setting_contact_invite(driver):
     i = "3"
@@ -291,9 +294,9 @@ def walkin_visitor(driver,walkin_details):
             contact = setting_contact(driver)
             print(contact)
 
-        elif(status == 'walkin' and type=='mobile'):
+        elif(status == 'walkin' and type=='email'):
             email=setting_email(driver)
-            print(email)
+            print("email is "+email)
 
         elif (status == 'offline'):
             contact = setting_contact_offline(driver)
@@ -374,7 +377,7 @@ def autofetch_user(driver,walkin_details):
             contact = setting_contact(driver)
             print(contact)
 
-        elif(status == 'walkin' and type=='mobile'):
+        elif(status == 'walkin' and type =='email'):
             email=setting_email(driver)
             print(email)
 
@@ -499,7 +502,7 @@ def FLEP_Email_Screen(driver,walkin_details,email):
     assert myemail==email
     contact_element = WebDriverWait(driver, 5, poll_frequency=0.005).until(
         EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'PhoneNumber')))
-    contact_element.click()
+    contact_element.send_keys(walkin_details["phone"])
     Next(driver)
 
 def FLEP_Autofetch_Email_walkin(driver,member_details,email):
@@ -522,7 +525,8 @@ def FLEP_Autofetch_Email_walkin(driver,member_details,email):
     assert myemail==email
     contact_element = WebDriverWait(driver, 5, poll_frequency=0.005).until(
         EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'PhoneNumber')))
-    contact_element.click()
+    c =contact_element.texr
+    assert c == member_details['phone']
     Next(driver)
 
 def FLEP_Screen(driver,walkin_details,contact):
