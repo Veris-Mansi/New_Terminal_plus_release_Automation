@@ -14,6 +14,7 @@ class TestWalk_In():
         self.member_details=data['member_details']
         self.invited_details=data['invited_details']
         self.offline_walkin_details=data['offline_walkin_details']
+        self.walkin_email_details=data['walkin_email_details']
 
     @pytest.mark.order1
     @pytest.mark.dependency(name="Start activity")
@@ -33,12 +34,11 @@ class TestWalk_In():
         except Exception as e:
             print (e)
 
-    """
     @pytest.mark.order3
     @pytest.mark.dependency(name="fresh_user_walkin",depends=["Login activity"])
     def test_fresh_user_walkin(self):
         walkin_visitor(self.driver,self.walkin_details)
-    """
+
     @pytest.mark.order3
     @pytest.mark.dependency(name="autofetch_user_walkin", depends=["Login activity"])
     def test_autofetch_user_walkin(self):
@@ -75,7 +75,6 @@ class TestWalk_In():
             Next(self.driver)
             time.sleep(1)
             activity_complete(self.driver, self.member_details)
-            check_out(self.driver, self.member_details)
             self.status_test = True
             statusOftest(self.status_test, self.driver)
         except:
@@ -83,7 +82,6 @@ class TestWalk_In():
             takeScreenshot(self.driver)
             statusOftest(self.status_test, self.driver)
             raise
-
     @pytest.mark.order7
     @pytest.mark.dependency(name="invited_user", depends=["Login activity"])
     def test_invited_user(self):
@@ -96,11 +94,10 @@ class TestWalk_In():
             # time.sleep(2)
             meeting = self.driver.find_element_by_xpath(
                 '	//android.widget.EditText[@content-desc="meetingWithTextField"]')
-            meeting_with_invite(self.driver)
+            Meeting_with_screen(self.driver)
             Next(self.driver)
             time.sleep(2)
             activity_complete(self.driver, self.invited_details)
-            check_out(self.driver, self.invited_details)
             self.status_test = True
             statusOftest(self.status_test, self.driver)
         except:
@@ -124,15 +121,8 @@ class TestWalk_In():
             Next(self.driver)
             unique_id_autofetch(self.driver, self.member_details['unique_id'])
             gender_Screen(self.driver)
-            el = WebDriverWait(self.driver, 10, poll_frequency=0.5).until(EC.presence_of_element_located((By.XPATH,
-                                                                                                          '//android.view.ViewGroup[@content-desc="dropdownFormComponentField"]/android.view.ViewGroup')))
-            el.click()
-            time.sleep(1)
-            el = WebDriverWait(self.driver, 10, poll_frequency=0.5).until(EC.presence_of_element_located((By.XPATH,
-                                                                                                          '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.widget.ScrollView/android.view.ViewGroup/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.view.ViewGroup[3]/android.view.ViewGroup[1]')))
-            el.click()
             Next(self.driver)
-            activity_complete(self.driver, self.member_details)
+            activity_complete_general(self.driver, self.member_details)
             check_out(self.driver, self.member_details)
             self.status_test = True
             statusOftest(self.status_test, self.driver)
@@ -143,7 +133,6 @@ class TestWalk_In():
             self.status_test = False
             statusOftest(self.status_test, self.driver)
             raise
-
 
     def test_general_activity_walkin(self):
 
@@ -158,18 +147,9 @@ class TestWalk_In():
             unique_id(self.driver, self.walkin_details['unique_id'])
             gender_Screen(self.driver)
             self.driver.hide_keyboard()
-            el = WebDriverWait(self.driver, 10, poll_frequency=0.5).until(EC.presence_of_element_located((By.XPATH,
-                                                                                                          '//android.view.ViewGroup[@content-desc="dropdownFormComponentField"]/android.view.ViewGroup')))
-            el.click()
-            time.sleep(1)
-            el = WebDriverWait(self.driver, 10, poll_frequency=0.5).until(EC.presence_of_element_located((By.XPATH,
-                                                                                                          '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.widget.ScrollView/android.view.ViewGroup/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[2]/android.view.ViewGroup[3]/android.view.ViewGroup[1]')))
-            el.click()
-            next = WebDriverWait(self.driver, 10, poll_frequency=0.5).until(
-                EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'nextButton')))
-            next.click()
+            Next(self.driver)
 
-            activity_complete(self.driver, self.walkin_details)
+            activity_complete_general(self.driver, self.walkin_details)
             self.status_test = True
             statusOftest(self.status_test, self.driver)
         except:
@@ -178,3 +158,36 @@ class TestWalk_In():
             statusOftest(self.status_test, self.driver)
             raise
 
+    def test_general_activity_walkin_autofetch(self):
+        try:
+            late_tracking(self.driver)
+            time.sleep(0.5)
+            contact = setting_contact(self.driver)
+            cameraretake(self.driver)
+            FLEP_auto_fetch_visitor(self.driver, self.walkin_details, contact)
+            time.sleep(1)
+            emergency_details_autofetch(self.driver, self.walkin_details)
+            Next(self.driver)
+            unique_id_autofetch(self.driver, self.walkin_details['unique_id'])
+            gender_Screen(self.driver)
+            Next(self.driver)
+            activity_complete_general(self.driver, self.walkin_details)
+            # check_out(self.driver, self.walkin_details)
+            self.status_test = True
+            statusOftest(self.status_test, self.driver)
+        except:
+            print("exception")
+            self.status_test = False
+            statusOftest(self.status_test, self.driver)
+            raise
+
+    def test_checkout_user(self):
+        check_out(self.driver, self.walkin_details)
+        check_out(self.driver, self.member_details)
+        check_out(self.driver)
+
+    def test_email_walkin(self):
+        walkin_visitor(self.driver,self.walkin_email_details)
+
+    def test_email_autofetch(self):
+        autofetch_user(self.driver,self.walkin_email_details)

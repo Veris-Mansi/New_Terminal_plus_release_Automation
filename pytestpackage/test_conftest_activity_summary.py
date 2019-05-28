@@ -31,6 +31,7 @@ class TestWalk_In():
 
         except Exception as e:
             print (e)
+            assert False
 
     def test_activity_summary(self):
 
@@ -43,7 +44,7 @@ class TestWalk_In():
             Next(self.driver)
             activity_summary(self.driver,self.walkin_details)
             Next(self.driver)
-            activity_checkOut(self.driver)
+            activity_checkOut(self.driver,self.walkin_details)
         except:
             print("Exception")
             takeScreenshot(self.driver)
