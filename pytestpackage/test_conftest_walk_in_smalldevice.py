@@ -1,4 +1,4 @@
-
+import unittest
 import pytest
 import time
 from utilities.Resources2 import *
@@ -34,6 +34,7 @@ class TestWalk_In():
         except Exception as e:
             print (e)
 
+    """
     @pytest.mark.order3
     @pytest.mark.dependency(name="fresh_user_walkin",depends=["Login activity"])
     def test_fresh_user_walkin(self):
@@ -43,7 +44,8 @@ class TestWalk_In():
     @pytest.mark.dependency(name="autofetch_user_walkin", depends=["Login activity"])
     def test_autofetch_user_walkin(self):
         autofetch_user(self.driver, self.walkin_details)
-
+   """
+    """
     @pytest.mark.order5
     @pytest.mark.dependency(name="member_check_in", depends=["Login activity"])
     def test_member_check_in(self):
@@ -92,9 +94,6 @@ class TestWalk_In():
             InvitedWF(self.driver)
             FLEP_auto_fetch_member(self.driver, self.invited_details)
             # time.sleep(2)
-            meeting = self.driver.find_element_by_xpath(
-                '	//android.widget.EditText[@content-desc="meetingWithTextField"]')
-            Meeting_with_screen(self.driver)
             Next(self.driver)
             time.sleep(2)
             activity_complete(self.driver, self.invited_details)
@@ -184,8 +183,8 @@ class TestWalk_In():
     def test_checkout_user(self):
         check_out(self.driver, self.walkin_details)
         check_out(self.driver, self.member_details)
-        check_out(self.driver)
-
+        check_out(self.driver,self.invited_details)
+"""
     def test_email_walkin(self):
         walkin_visitor(self.driver,self.walkin_email_details)
 
