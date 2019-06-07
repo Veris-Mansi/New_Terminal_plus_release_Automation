@@ -116,7 +116,7 @@ def permission_buttons_small_device(driver):
 def start_activity(driver):
 
     time.sleep(0.5)
-    permission_buttons(driver)
+    permission_buttons_small_device(driver)
     time.sleep(1.5)
     driver.press_keycode(4)
     time.sleep(0.5)
@@ -140,7 +140,7 @@ def login(driver):
         EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'Authorization ID')))
     p.send_keys('N1')
 
-    #driver.hide_keyboard()
+    driver.hide_keyboard()
     p = WebDriverWait(driver, 20, poll_frequency=0.005).until(
         EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'Authorization Code')))
     p.send_keys('1')
@@ -182,33 +182,49 @@ def setting_contact_invite(driver):
         time.sleep(0.05)
     Next(driver)
     return contact
-
+    driver.quit()
 def setting_contact(driver):
 
-    i = "9"
-    j="6"
+    i = "8"
+    j="2"
 
     contact = ""
-
+    print("in small device")
     for k in range(5):
         #p = WebDriverWait(driver, 5, poll_frequency=0.5).until(
         #    EC.presence_of_element_located((By.XPATH,
         #                                    '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[15]/android.view.ViewGroup')))
-        p=WebDriverWait(driver, 5, poll_frequency=0.5).until(
+        """p=WebDriverWait(driver, 5, poll_frequency=0.5).until(
             EC.presence_of_element_located((By.XPATH,'//android.widget.TextView[@content-desc="nine"]')))
+        p.click()"""
+        print("waiting for ",i)
+        p = WebDriverWait(driver, 5, poll_frequency=0.5).until(
+            EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'nine')))
+        print("done ",i)
+        print(p)
         p.click()
+        print("click done ",i)
         contact = contact + i
 
     for k in range(5):
         """p = WebDriverWait(driver, 5, poll_frequency=0.5).until(
             EC.presence_of_element_located((By.XPATH,
                                             '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[13]/android.view.ViewGroup')))
-        """
+        
         p = WebDriverWait(driver, 5, poll_frequency=0.5).until(
             EC.presence_of_element_located(
-                (By.XPATH, '//android.widget.TextView[@content-desc="six"]')))
+                (By.XPATH, '//android.widget.TextView[@content-desc="two"]')))
 
         p.click()
+        """
+        print("waiting for ", j)
+        p = WebDriverWait(driver, 5, poll_frequency=0.5).until(
+            EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'two')))
+        print("done ", j)
+        print(p)
+
+        p.click()
+        print("click done ",j)
         contact = contact + j
 
     Next(driver)
@@ -239,7 +255,7 @@ def setting_contact_offline(driver):
     Next(driver)
 
     return contact_no
-
+    driver.quit()
 def setting_contact_member(driver):
     """p = WebDriverWait(driver, 5, poll_frequency=0.5).until(
         EC.presence_of_element_located((By.XPATH,
@@ -291,7 +307,7 @@ def setting_contact_member(driver):
         EC.presence_of_element_located((By.XPATH,
                                         '/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup[14]/android.view.ViewGroup')))
     p.click()
-    """
+
     p = WebDriverWait(driver, 5, poll_frequency=0.5).until(
         EC.presence_of_element_located((By.XPATH, '//android.widget.TextView[@content-desc="nine"]')))
     p.click()
@@ -322,10 +338,75 @@ def setting_contact_member(driver):
     p.click()
     p = WebDriverWait(driver, 5, poll_frequency=0.5).until(
         EC.presence_of_element_located((By.XPATH, '//android.widget.TextView[@content-desc="six"]')))
+    p.click()"""
+    print("wait before nine")
+    p = WebDriverWait(driver, 5, poll_frequency=0.5).until(
+        EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'nine')))
+    print("done 9", p)
     p.click()
-    Next(driver)
-    assert True
+    print("click done 9")
 
+    print("wait before nine")
+    p = WebDriverWait(driver, 5, poll_frequency=0.5).until(
+            EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'nine')))
+    print("done 9", p)
+    p.click()
+    print("click done 9")
+
+    print("wait before nine")
+    p = WebDriverWait(driver, 5, poll_frequency=0.5).until(
+            EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'nine')))
+    print("done 9", p)
+    p.click()
+    print("click done 9")
+
+    print("wait before 3")
+    p = WebDriverWait(driver, 5, poll_frequency=0.5).until(
+            EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'three')))
+    print("done 3" , p)
+    p.click()
+    print("click done 3")
+    print("wait before 4")
+
+    p = WebDriverWait(driver, 5, poll_frequency=0.5).until(
+            EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'four')))
+    print("done 4" ,p)
+    p.click()
+    print("click done 4")
+
+    print("wait before 8")
+    p = WebDriverWait(driver, 5, poll_frequency=0.5).until(
+            EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'eight')))
+    print("done 8",p)
+    p.click()
+    print("click done 8")
+
+    print("wait before 3")
+    p = WebDriverWait(driver, 5, poll_frequency=0.5).until(
+            EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'three')))
+    print("done 3",p)
+    p.click()
+    print("click done 3")
+    print("wait before 6")
+    p = WebDriverWait(driver, 5, poll_frequency=0.5).until(
+            EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'six')))
+    print("done 6",p)
+    p.click()
+    print("click done 6")
+    print("wait before 7")
+    p = WebDriverWait(driver, 5, poll_frequency=0.5).until(
+        EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'seven')))
+    print("done 7 ",p)
+    p.click()
+    print("click done 7")
+    print("wait before 6")
+    p = WebDriverWait(driver, 5, poll_frequency=0.5).until(
+        EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'six')))
+    print("done 6 ", p)
+    p.click()
+    print("click done 6 ",p)
+    Next(driver)
+    #driver.quit()
 def late_tracking(driver):
     el = WebDriverWait(driver, 10, poll_frequency=0.5).until(
         EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'Late_Tracking')))
@@ -390,7 +471,7 @@ def walkin_visitor(driver,walkin_details):
             EC.presence_of_element_located((By.ACCESSIBILITY_ID, "Next")))
         next.click()
         multi_tenant(driver)
-        NDA_screen(driver)
+        NDA_Smallscreen(driver)
         time.sleep(1)
         #
         m = WebDriverWait(driver, 20, poll_frequency=0.05).until(
@@ -399,7 +480,7 @@ def walkin_visitor(driver,walkin_details):
         m = WebDriverWait(driver, 20, poll_frequency=0.05).until(
             EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'Next')))
         m.click()
-        date_and_time(driver)
+        date_and_time_small(driver)
         activity_complete(driver, walkin_details)
         #check_out(driver, walkin_details)
         status_test = True
@@ -472,7 +553,7 @@ def autofetch_user(driver,walkin_details):
         Next(driver)
         time.sleep(0.5)
         multi_tenant(driver)
-        NDA_screen(driver)
+        NDA_Smallscreen(driver)
         time.sleep(0.5)
         #
         m = WebDriverWait(driver, 20, poll_frequency=0.05).until(
@@ -538,7 +619,7 @@ def FLEP_Email_Screen(driver,walkin_details,email):
         EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'First Name')))
     driver.set_value(FirstName, walkin_details['firstname'])
     print("fname done")
-    # driver.hide_keyboard()
+    driver.hide_keyboard()
     LastName = WebDriverWait(driver, 5, poll_frequency=0.005).until(
         EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'Last Name')))
     driver.set_value(LastName, walkin_details['lastname'])
@@ -559,21 +640,27 @@ def FLEP_Autofetch_Email_walkin(driver,member_details,email):
     print(text)
     # print(member_details['firstname'])
     assert text == member_details['firstname']
-    # driver.hide_keyboard()
+    driver.hide_keyboard()
     LastName = WebDriverWait(driver, 5, poll_frequency=0.005).until(
         EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'Last Name')))
     text1 = LastName.text
     print(text1)
     assert text1 == member_details['lastname']
     print("lname done")
+    driver.hide_keyboard()
+
     Email = WebDriverWait(driver, 5, poll_frequency=0.005).until(
         EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'email')))
     myemail=Email.text
     assert myemail==email
+    driver.hide_keyboard()
+
     contact_element = WebDriverWait(driver, 5, poll_frequency=0.005).until(
         EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'PhoneNumber')))
     c =contact_element.text
     assert c == member_details['phone']
+    driver.hide_keyboard()
+
     Next(driver)
 
 def FLEP_Screen(driver,walkin_details,contact):
@@ -581,13 +668,13 @@ def FLEP_Screen(driver,walkin_details,contact):
         EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'First Name')))
     driver.set_value(FirstName, walkin_details['firstname'])
     print("fname done")
-    #driver.hide_keyboard()
+    driver.hide_keyboard()
     LastName = WebDriverWait(driver, 5, poll_frequency=0.005).until(
         EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'Last Name')))
     driver.set_value(LastName, walkin_details['lastname'])
 
     print("lname done")
-    #driver.hide_keyboard()
+    driver.hide_keyboard()
     Email = WebDriverWait(driver, 5, poll_frequency=0.005).until(
         EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'email')))
     driver.set_value(Email, walkin_details['email'])
@@ -597,6 +684,8 @@ def FLEP_Screen(driver,walkin_details,contact):
         EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'PhoneNumber')))
     num = contact_element.get_attribute('text')
     assert num == contact
+    driver.hide_keyboard()
+
     btn = WebDriverWait(driver, 2, poll_frequency=0.005).until(EC.presence_of_element_located((By.ACCESSIBILITY_ID, "Next")))
     btn.click()
     assert True
@@ -607,10 +696,8 @@ def FLEP_auto_fetch_member(driver,member_details):
     text = Fname.text
     print(type(member_details))
     print(text)
-    member_details1=dict(member_details)
-    print(member_details1['firstname'])
-    print(type(member_details1))
-    assert text == member_details1['firstname']
+    print(member_details[0]['firstname'])
+    assert text == member_details[0]['firstname']
     #time.sleep(3)
     Lname = WebDriverWait(driver, 5, poll_frequency=0.005).until(
         EC.presence_of_element_located((By.ACCESSIBILITY_ID, "Last Name")))
@@ -619,17 +706,17 @@ def FLEP_auto_fetch_member(driver,member_details):
     print(status)
     text1 = Lname.text
     print(text1)
-    assert text1 == member_details1['lastname']
+    assert text1 == member_details[0]['lastname']
     email = WebDriverWait(driver, 5, poll_frequency=0.005).until(
         EC.presence_of_element_located((By.ACCESSIBILITY_ID, "email")))
     #Email = driver.find_element_by_xpath('//android.view.ViewGroup[@content-desc="Email"]/android.widget.EditText')
     text2 = email.text
     print(text2)
     if (len(text2) == 0):
-        driver.set_value(email,member_details1['email'])
+        driver.set_value(email,member_details[0]['email'])
         #time.sleep(0.5)
     else:
-        if (len(text2) > 0 and text2 == member_details1['email']):
+        if (len(text2) > 0 and text2 == member_details[0]['email']):
             assert True
         else:
             assert False
@@ -640,7 +727,7 @@ def FLEP_auto_fetch_member(driver,member_details):
         EC.presence_of_element_located((By.ACCESSIBILITY_ID, "PhoneNumber")))
     text4 = Phone.text
     print(text4)
-    if (len(text4) > 0 and text4 == member_details1['phone']):
+    if (len(text4) > 0 and text4 == member_details[0]['phone']):
         assert True
         #print("Contact autofetched test case passed")
     else:
