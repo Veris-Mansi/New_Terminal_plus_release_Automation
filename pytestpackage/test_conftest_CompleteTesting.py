@@ -1,6 +1,5 @@
 import pytest
-from utilities.Resources2 import *
-import unittest
+
 
 @pytest.mark.usefixtures("data","driver")
 class TestComplete():
