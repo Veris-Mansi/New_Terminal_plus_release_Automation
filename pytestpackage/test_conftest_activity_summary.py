@@ -1,6 +1,5 @@
 import pytest
-import time
-from utilities.Resources2 import *
+
 
 @pytest.mark.usefixtures("data","driver")
 class TestWalk_In():
