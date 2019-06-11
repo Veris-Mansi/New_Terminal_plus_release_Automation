@@ -15,18 +15,17 @@ class TestWalk_In():
         self.invited_details=data['invited_details']
         self.offline_walkin_details=data['offline_walkin_details']
         self.walkin_email_details=data['walkin_email_details']
+        self.member_email_detail=data['member_email_detail']
+        self.email_invited_details=data['email_invited_details']
 
-    @pytest.mark.order1
-    @pytest.mark.dependency(name="Start activity")
     def test_start_activity(self):
         try:
             start_activity(self.driver)
         except Exception as e:
             print(e)
-            print("unable to start activity ")
+            print("unable to start activity")
 
-    @pytest.mark.order2
-    @pytest.mark.dependency(name="Login activity",depends=["Start activity"])
+
     def test_login(self):
         try:
             login(self.driver)
@@ -34,94 +33,92 @@ class TestWalk_In():
         except Exception as e:
             print (e)
 
-    """
-    @pytest.mark.order3
-    @pytest.mark.dependency(name="fresh_user_walkin",depends=["Login activity"])
+
     def test_fresh_user_walkin(self):
         walkin_visitor(self.driver,self.walkin_details)
 
-    @pytest.mark.order3
-    @pytest.mark.dependency(name="autofetch_user_walkin", depends=["Login activity"])
-    def test_autofetch_user_walkin(self):
-
-        autofetch_user(self.driver, self.walkin_details)"""
-    @pytest.mark.order5
-    @pytest.mark.dependency(name="member_check_in", depends=["Login activity"])
     def test_member_check_in(self):
         try:
-            user_action = TouchAction(self.driver)
+
+            time.sleep(0.5)
             checkIn(self.driver)
             time.sleep(0.5)
-            setting_contact_member(self.driver)
+            #setting_contact_member(self.driver)
+            setting_contact_member_touch(self.driver)
             print("old screen")
             phone = WebDriverWait(self.driver, 10, poll_frequency=0.005).until(
                 EC.presence_of_element_located((By.ACCESSIBILITY_ID, 'Employee')))
             phone.click()
 
             cameraretake(self.driver)
-            FLEP_auto_fetch_member(self.driver, self.member_details)
+            FLEP_auto_fetch_member(self.driver, self.member_details[0])
 
             Meeting_with_screen(self.driver)
             time.sleep(1)
             try:
-                emergency_details_autofetch(self.driver, self.member_details)
-                unique_id_autofetch(self.driver, self.member_details['unique_id'])
+                emergency_details_autofetch(self.driver, self.member_details[0])
+                unique_id_autofetch(self.driver, self.member_details[0]['unique_id'])
 
             except:
-                emergency_contact(self.driver,self.member_details)
-                unique_id(self.driver,self.member_details)
+                emergency_contact(self.driver,self.member_details[0])
+                unique_id(self.driver,self.member_details[0])
 
             Next(self.driver)
             time.sleep(1)
-            activity_complete(self.driver, self.member_details)
+            print(type(self.member_details))
+            print(self.member_details)
+            print(type(self.member_details[0]))
+            print(self.member_details[0])
+            activity_complete(self.driver, self.member_details[0])
             self.status_test = True
             statusOftest(self.status_test, self.driver)
-            self.driver.quit()
+            self.driver.background_app(2)
         except:
             self.status_test = False
             takeScreenshot(self.driver)
             statusOftest(self.status_test, self.driver)
             raise
-    @pytest.mark.order7
-    @pytest.mark.dependency(name="invited_user", depends=["Login activity"])
+
     def test_invited_user(self):
         try:
-            self.status_test = False
             checkIn(self.driver)
-            setting_contact_invite(self.driver)
+            contact=setting_contact_invite(self.driver)
             InvitedWF(self.driver)
+            FLEP_auto_fetch_visitor(self.driver,self.invited_details,contact)
             meeting_with_invite(self.driver)
             Next(self.driver)
             time.sleep(2)
             activity_complete(self.driver, self.invited_details)
             self.status_test = True
             statusOftest(self.status_test, self.driver)
+            #self.driver.background_app(2)
         except:
             self.status_test = False
             takeScreenshot(self.driver)
             statusOftest(self.status_test, self.driver)
             raise
 
-    @pytest.mark.order8
-    @pytest.mark.dependency(name="general_activity_member", depends=["Login activity"])
     def test_general_activity_member(self):
         try:
+
+            time.sleep(0.5)
             late_tracking(self.driver)
-            setting_contact_member(self.driver)
+            setting_contact_member_touch(self.driver)
+
             # time.sleep(2)
             cameraretake(self.driver)
             FLEP_auto_fetch_member(self.driver, self.member_details)
             time.sleep(0.5)
-            emergency_details_autofetch(self.driver, self.member_details)
+            emergency_details_autofetch(self.driver, self.member_details[0])
             time.sleep(0.5)
             Next(self.driver)
-            unique_id_autofetch(self.driver, self.member_details['unique_id'])
+            unique_id_autofetch(self.driver, self.member_details[0]['unique_id'])
             gender_Screen(self.driver)
             Next(self.driver)
-            activity_complete_general(self.driver, self.member_details)
-            check_out(self.driver, self.member_details)
+            activity_complete_general(self.driver, self.member_details[0])
             self.status_test = True
             statusOftest(self.status_test, self.driver)
+            self.driver.background_app(2)
             assert True
         except:
             print("exception")
@@ -130,12 +127,13 @@ class TestWalk_In():
             statusOftest(self.status_test, self.driver)
             raise
 
+
     def test_general_activity_walkin(self):
 
         try:
             late_tracking(self.driver)
             time.sleep(0.5)
-            contact = setting_contact(self.driver)
+            contact = setting_contact_touch(self.driver)
             camera(self.driver)
             FLEP_Screen(self.driver, self.walkin_details, contact)
             emergency_contact(self.driver, self.walkin_details)
@@ -148,17 +146,33 @@ class TestWalk_In():
             activity_complete_general(self.driver, self.walkin_details)
             self.status_test = True
             statusOftest(self.status_test, self.driver)
+            #self.driver.background_app(2)
         except:
             print("exception")
+            takeScreenshot(self.driver)
+
             self.status_test = False
             statusOftest(self.status_test, self.driver)
             raise
+    def test_email_walkin(self):
+        try:
+
+            time.sleep(1)
+            walkin_visitor(self.driver, self.walkin_email_details)
+            self.driver.background_app(2)
+        except:
+            print("exception")
+            takeScreenshot(self.driver)
+            self.status_test = False
+            statusOftest(self.status_test, self.driver)
+            raise
+
 
     def test_general_activity_walkin_autofetch(self):
         try:
             late_tracking(self.driver)
             time.sleep(0.5)
-            contact = setting_contact(self.driver)
+            contact = setting_contact_touch(self.driver)
             cameraretake(self.driver)
             FLEP_auto_fetch_visitor(self.driver, self.walkin_details, contact)
             time.sleep(1)
@@ -171,19 +185,54 @@ class TestWalk_In():
             # check_out(self.driver, self.walkin_details)
             self.status_test = True
             statusOftest(self.status_test, self.driver)
+            self.driver.background_app(2)
+        except:
+            print("exception")
+            takeScreenshot(self.driver)
+            self.status_test = False
+            statusOftest(self.status_test, self.driver)
+            raise
+
+    def test_autofetch_user_walkin(self):
+
+        autofetch_user(self.driver, self.walkin_details)
+
+    def test_email_autofetch(self):
+        try:
+            autofetch_user(self.driver,self.walkin_email_details)
+            self.driver.background_app(2)
         except:
             print("exception")
             self.status_test = False
             statusOftest(self.status_test, self.driver)
             raise
 
-    def test_checkout_user(self):
-        check_out(self.driver, self.walkin_details)
-        check_out(self.driver, self.member_details)
-        check_out(self.driver,self.invited_details)
+    def test_checkout_walkinuser(self):
+       try:
+           check_out(self.driver, self.walkin_details)
 
-    def test_email_walkin(self):
-        walkin_visitor(self.driver,self.walkin_email_details)
+       except:
+           print("exception")
+           self.status_test = False
+           statusOftest(self.status_test, self.driver)
+           raise
+    def test_checkout_member(self):
+        try:
+            check_out(self.driver, self.member_details[0])
+            self.driver.background_app(1)
+        except:
+            print("exception")
+            self.status_test = False
+            statusOftest(self.status_test, self.driver)
+            raise
+    def test_checkout_invite(self):
+        try:
+            check_out(self.driver, self.invited_details)
 
-    def test_email_autofetch(self):
-        autofetch_user(self.driver,self.walkin_email_details)
+        except:
+            print("exception")
+            self.status_test = False
+            statusOftest(self.status_test, self.driver)
+            raise
+
+

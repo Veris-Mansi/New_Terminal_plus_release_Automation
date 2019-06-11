@@ -58,7 +58,7 @@ def settingup():
         "Emergency_contact_name": "test name",
         "Emergency_contact": "9992223331",
         "status":"member"
-    },
+    }
     member_email_details={
 
         "firstname": "",
